@@ -1,5 +1,7 @@
 import { StoreAdapter } from '../StoreAdapter';
 
+import { type StoreProduct } from '@/src/types/Product';
+
 export class SampleAdapter extends StoreAdapter {
   readonly structure = {
     productView: {
@@ -35,15 +37,29 @@ export class SampleAdapter extends StoreAdapter {
   }
 
   // to extract data from product view element
-  getDataFromProductViewElement(element: Element) {
+  getDataFromProductViewElement(element: Element): StoreProduct {
     const barcode = this.structure.productView.getBarcode(element);
-    return { barcode };
+    return {
+      code: barcode,
+      name: null,
+      brand: null,
+      quantity: null,
+      category: null,
+      searchQuery: null,
+    };
   }
 
   // to extract data from product list element
-  getDataFromProductListElement(element: Element) {
+  getDataFromProductListElement(element: Element): StoreProduct {
     const barcode = this.structure.listView.getBarcode(element);
-    return { barcode };
+    return {
+      code: barcode,
+      name: null,
+      brand: null,
+      quantity: null,
+      category: null,
+      searchQuery: null,
+    };
   }
 
   // to inject banner into product view element

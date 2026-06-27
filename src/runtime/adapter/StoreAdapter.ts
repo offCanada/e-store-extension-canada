@@ -1,5 +1,7 @@
 import { BaseAdapter } from './BaseAdapter';
 
+import { type StoreProduct } from '@/src/types/Product';
+
 export interface StoreStructure {
   productView: {
     productElementSelector: string;
@@ -25,8 +27,8 @@ export abstract class StoreAdapter extends BaseAdapter {
   abstract getProductListElements(): Element[];
 
   // Product data extraction methods
-  abstract getDataFromProductViewElement(element: Element): object; // need to create a type for the product data
-  abstract getDataFromProductListElement(element: Element): object;
+  abstract getDataFromProductViewElement(element: Element): StoreProduct;
+  abstract getDataFromProductListElement(element: Element): StoreProduct;
 
   // Banner injection methods
   abstract injectViewItemBanner(target: Element): Element;
