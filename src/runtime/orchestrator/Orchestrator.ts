@@ -5,6 +5,7 @@ import { Renderer } from '../rendering/Renderer';
 import { ProcessedElementTracker } from '../state/ProcessedElementTracker';
 
 import SampleBanner from '@/src/components/SampleBanner';
+import { invalidateCache } from '@/src/utils/invalidateCache';
 
 export class Orchestrator {
   private renderedElements = new Map<Element, Element>();
@@ -16,6 +17,8 @@ export class Orchestrator {
 
   init() {
     // TODO: load settings, I18n, etc.
+    invalidateCache();
+
     this.domObserver.start(() => {
       this.render();
     });

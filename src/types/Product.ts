@@ -39,8 +39,3 @@ export interface ProductResponse {
   message: string;
   product: Product | null;
 }
-
-export interface GetProductDataMessage {
-  type: 'GET_PRODUCT_DATA';
-  payload: StoreProduct;
-}
