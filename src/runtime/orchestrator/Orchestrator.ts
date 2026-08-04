@@ -4,7 +4,7 @@ import { VisibilityObserver } from '../observers/VisibilityObserver';
 import { Renderer } from '../rendering/Renderer';
 import { ProcessedElementTracker } from '../state/ProcessedElementTracker';
 
-import SampleBanner from '@/src/components/SampleBanner';
+import { ProductBannerInjector } from '@/src/components/ProductBannerInjector';
 import { invalidateCache } from '@/src/utils/invalidateCache';
 
 export class Orchestrator {
@@ -50,7 +50,7 @@ export class Orchestrator {
     this.processedTracker.mark(productElement);
     const data = this.adapter.getDataFromProductViewElement(productElement);
     const container = this.adapter.injectViewItemBanner(productElement);
-    Renderer.mount(SampleBanner, container, data);
+    Renderer.mount(ProductBannerInjector, container, data);
     this.renderedElements.set(productElement, container);
   }
 
@@ -81,7 +81,7 @@ export class Orchestrator {
     this.processedTracker.mark(element);
     const data = this.adapter.getDataFromProductListElement(element);
     const container = this.adapter.injectListItemBanner(element);
-    Renderer.mount(SampleBanner, container, data);
+    Renderer.mount(ProductBannerInjector, container, data);
     this.renderedElements.set(element, container);
   }
 

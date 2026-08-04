@@ -64,11 +64,17 @@ export class SampleAdapter extends StoreAdapter {
 
   // to inject banner into product view element
   injectViewItemBanner(target: Element): Element {
-    return target;
+    const host = this.getHostElement();
+    target.before(host);
+    return this.getShadowRootContainer(host);
   }
 
   // to inject banner into product list element
   injectListItemBanner(target: Element): Element {
-    return target;
+    const anchor =
+      this.select(this.structure.listView.uiInjectionElementSelector, target) ?? target;
+    const host = this.getHostElement();
+    anchor.before(host);
+    return this.getShadowRootContainer(host);
   }
 }
