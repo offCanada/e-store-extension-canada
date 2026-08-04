@@ -65,10 +65,13 @@ export default class OpenFoodFactsApi extends ProductDataSource {
       return this.parseResponse(null);
     }
 
-    return this.parseResponse(data.hits[0]);
+    return this.parseResponse(data.hits[0], true);
   }
 
-  private parseResponse(data: OFFProduct | null | undefined): ProductResponse {
+  private parseResponse(
+    data: OFFProduct | null | undefined,
+    isSearchApi: boolean = false
+  ): ProductResponse {
     if (!data) {
       return {
         status: ResponseStatus.ERROR,
@@ -85,18 +88,19 @@ export default class OpenFoodFactsApi extends ProductDataSource {
       quantityUnit: data.product_quantity_unit ?? null,
       imageUrl: data.image_front_small_url ?? null,
 
-      nutrientLevels: {
+      nutrients: {
         fat: data.nutrient_levels?.fat ?? 'unknown',
-        saturatedFat: data.nutrient_levels?.['saturated-fat'] ?? 'unknown',
-        sugars: data.nutrient_levels?.sugars ?? 'unknown',
+        saturated_fat: data.nutrient_levels?.['saturated-fat'] ?? 'unknown',
+        sugar: data.nutrient_levels?.sugars ?? 'unknown',
         salt: data.nutrient_levels?.salt ?? 'unknown',
       },
 
-      nutriscoreGrade: data.nutriscore_grade ?? 'unknown',
-
+      nutriscoreGrade:
+        data.nutriscore_grade !== 'not-applicable' ? data.nutriscore_grade : 'unknown',
       novaGroup: data.nova_group ?? 'unknown',
+      ecoscoreGrade: data.ecoscore_grade !== 'not-applicable' ? data.ecoscore_grade : 'unknown',
 
-      ecoscoreGrade: data.ecoscore_grade ?? 'unknown',
+      showSearchWarning: isSearchApi,
     };
 
     return {

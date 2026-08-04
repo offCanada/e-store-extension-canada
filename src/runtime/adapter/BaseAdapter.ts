@@ -1,4 +1,22 @@
+import { getSharedStyleSheet } from '@/src/utils/sharedStyles';
+
 export abstract class BaseAdapter {
+  protected getHostElement(): HTMLDivElement {
+    const host = document.createElement('div');
+    host.style.cssText = 'position:relative; z-index:2;';
+    return host;
+  }
+
+  protected getShadowRootContainer(host: Element): HTMLElement {
+    const shadowRoot = host.attachShadow({ mode: 'open' });
+    const container = document.createElement('div');
+
+    shadowRoot.adoptedStyleSheets = [getSharedStyleSheet()];
+    shadowRoot.appendChild(container);
+
+    return container;
+  }
+
   // to select element
   protected select(selector: string, target?: Element): Element | null {
     return (target ?? document).querySelector(selector);

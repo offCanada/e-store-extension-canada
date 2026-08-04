@@ -5,10 +5,10 @@ export enum ResponseStatus {
 
 export type NutrientLevel = 'low' | 'moderate' | 'high' | 'unknown';
 
-export interface NutrientLevels {
+export interface Nutrients {
   fat: NutrientLevel;
-  saturatedFat: NutrientLevel;
-  sugars: NutrientLevel;
+  saturated_fat: NutrientLevel;
+  sugar: NutrientLevel;
   salt: NutrientLevel;
 }
 
@@ -28,10 +28,11 @@ export interface Product {
   quantity: number | string | null;
   quantityUnit: string | null;
   imageUrl: string | null;
-  nutrientLevels?: NutrientLevels;
+  nutrients?: Nutrients;
   nutriscoreGrade?: string;
   novaGroup?: number | 'unknown';
   ecoscoreGrade?: string;
+  showSearchWarning?: boolean;
 }
 
 export interface ProductResponse {
