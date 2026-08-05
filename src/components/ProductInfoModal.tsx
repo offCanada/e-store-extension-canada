@@ -92,11 +92,11 @@ const ProductInfoModal = ({ product, close }: ProductInfoModalProps) => {
             {/* ── Score badges ── */}
             <div class="grid grid-cols-3 gap-2 px-3 py-2">
               <ScoreCard scoreType="nutri-score" grade={product.nutriscoreGrade ?? 'unknown'} />
+              <ScoreCard scoreType="green-score" grade={product.ecoscoreGrade ?? 'unknown'} />
               <ScoreCard
                 scoreType="nova-group"
                 grade={product.novaGroup?.toString() ?? 'unknown'}
               />
-              <ScoreCard scoreType="green-score" grade={product.ecoscoreGrade ?? 'unknown'} />
             </div>
             {/* handle not-applicable values */}
 

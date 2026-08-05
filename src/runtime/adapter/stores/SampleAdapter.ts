@@ -40,6 +40,7 @@ export class SampleAdapter extends StoreAdapter {
   getDataFromProductViewElement(element: Element): StoreProduct {
     const barcode = this.structure.productView.getBarcode(element);
     return {
+      productId: null,
       code: barcode,
       name: null,
       brand: null,
@@ -53,6 +54,7 @@ export class SampleAdapter extends StoreAdapter {
   getDataFromProductListElement(element: Element): StoreProduct {
     const barcode = this.structure.listView.getBarcode(element);
     return {
+      productId: null,
       code: barcode,
       name: null,
       brand: null,
