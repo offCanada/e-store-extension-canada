@@ -13,6 +13,7 @@ export interface Nutrients {
 }
 
 export interface StoreProduct {
+  productId: string | null;
   code: string | null;
   name: string | null;
   brand: string | null;

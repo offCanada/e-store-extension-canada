@@ -22,6 +22,8 @@ export default class ProductDataService {
       if (cachedData) return cachedData;
     }
 
+    console.log(this.request);
+
     let response: ProductResponse | null = null;
 
     if (this.request.code) {
