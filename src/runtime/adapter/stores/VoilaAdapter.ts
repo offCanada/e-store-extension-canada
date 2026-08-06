@@ -9,12 +9,26 @@ export class VoilaAdapter extends StoreAdapter {
       productElementSelector2: '//*[@id="main"]/div/div[4]/div/div',
       uiInjectionElementSelector: '//*[@id="main"]/div/div[3]/div/div/h1',
       uiInjectionElementSelector2: '//*[@id="main"]/div/div[4]/div/div/h1',
-      getBarcode: (element: Element) => (element as HTMLElement).dataset.productCode ?? null,
+      product: {
+        id: (element: Element) => (element as HTMLElement).dataset.productId ?? null,
+        barcode: (element: Element) => null,
+        name: (element: Element) => (element as HTMLElement).dataset.productName ?? null,
+        brand: (element: Element) => (element as HTMLElement).dataset.productBrand ?? null,
+        quantity: (element: Element) => (element as HTMLElement).dataset.productQuantity ?? null,
+        category: (element: Element) => (element as HTMLElement).dataset.productCategory ?? null,
+      }
     },
     listView: {
       productElementSelector: '.product-card-container',
       uiInjectionElementSelector: '.product-card-container',
-      getBarcode: (element: Element) => (element as HTMLElement).dataset.productCode ?? null,
+      product: {
+        id: (element: Element) => (element as HTMLElement).dataset.productId ?? null,
+        barcode: (element: Element) => null,
+        name: (element: Element) => { return this.select('[data-test="fop-title"]', element)?.textContent ?? null; },
+        brand: (element: Element) => (element as HTMLElement).dataset.productBrand ?? null,
+        quantity: (element: Element) => (element as HTMLElement).dataset.productQuantity ?? null,
+        category: (element: Element) => (element as HTMLElement).dataset.productCategory ?? null,
+      }
     },
   };
 
