@@ -9,6 +9,7 @@ import ProductModalLoader from './ProductModalLoader';
 import ProductNotFoundBanner from './ProductNotFoundBanner';
 
 import type { Product, ProductResponse, StoreProduct } from '../types/Product';
+import { useProductData } from './hooks/useProductData';
 
 let sharedModalContainer: HTMLElement | null = null;
 
@@ -41,43 +42,14 @@ function getSharedModalContainer() {
   return container;
 }
 
-export function ProductBannerInjector(data: StoreProduct) {
+export function ProductBannerInjector(storeProduct: StoreProduct) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [product, setProduct] = useState<Product | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [notFound, setNotFound] = useState(false);
+  const { loading, notFound, product } = useProductData(storeProduct);
   const portalContainerRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     portalContainerRef.current = getSharedModalContainer();
   }, []);
-
-  useEffect(() => {
-    let cancelled = false;
-    setLoading(true);
-    browser.runtime
-      .sendMessage<{ type: 'GET_PRODUCT_DATA'; payload: StoreProduct }, ProductResponse | null>({
-        type: 'GET_PRODUCT_DATA',
-        payload: data,
-      })
-      .then((res) => {
-        if (cancelled) return;
-        if (!res?.product) {
-          setNotFound(true);
-          return;
-        }
-        setProduct(res.product);
-      })
-      .catch(() => {
-        if (!cancelled) setNotFound(true);
-      })
-      .finally(() => {
-        if (!cancelled) setLoading(false);
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, [data]);
 
   const closeModal = () => setIsModalOpen(false);
 

@@ -6,12 +6,26 @@ export interface StoreStructure {
   productView: {
     productElementSelector: string;
     uiInjectionElementSelector: string;
-    getBarcode: (element: Element) => string | null;
+    product: {
+      id: (element: Element) => string | null;
+      barcode: (element: Element) => string | null;
+      name: (element: Element) => string | null;
+      brand: (element: Element) => string | null;
+      quantity: (element: Element) => string | null;
+      category: (element: Element) => string | null;
+    };
   };
   listView: {
     productElementSelector: string;
     uiInjectionElementSelector: string;
-    getBarcode: (element: Element) => string | null;
+    product: {
+      id: (element: Element) => string | null;
+      barcode: (element: Element) => string | null;
+      name: (element: Element) => string | null;
+      brand: (element: Element) => string | null;
+      quantity: (element: Element) => string | null;
+      category: (element: Element) => string | null;
+    };
   };
 }
 
