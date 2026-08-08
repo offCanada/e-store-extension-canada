@@ -30,6 +30,11 @@ export class Orchestrator {
   }
 
   private async render() {
+    if (!this.settings.showStores[window.location.hostname].value) {
+      console.log('Store is turned off in settings.');
+      return;
+    }
+    
     if (this.settings.showProduct) {
       this.renderProductBanner();
     }
