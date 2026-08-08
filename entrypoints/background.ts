@@ -26,4 +26,19 @@ export default defineBackground(() => {
         return false;
     }
   });
+
+  browser.storage.onChanged.addListener(async (changes, namespace) => {
+    if (namespace === "local" && changes["settings"]) {
+      browser.tabs.query({}).then((tabs) => {
+        tabs.forEach((tab) => {
+          if (tab.id) {
+            browser.tabs.sendMessage(tab.id, {
+              type: "SETTINGS_CHANGED",
+              settings: changes["settings"].newValue,
+            }).catch(() => {});
+          }
+        });
+      });
+    }
+  });
 });

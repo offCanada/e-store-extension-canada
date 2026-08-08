@@ -4,6 +4,7 @@ import { VoilaAdapter } from './stores/VoilaAdapter';
 import type { StoreAdapter } from './StoreAdapter';
 
 interface StoreDefinition {
+  name: string;
   hostname: string;
   match: string;
   adapter: new () => StoreAdapter;
@@ -11,11 +12,13 @@ interface StoreDefinition {
 
 export const stores: StoreDefinition[] = [
   {
+    name: 'Voilà',
     hostname: 'voila.ca',
     match: '*://*.voila.ca/*',
     adapter: VoilaAdapter,
   },
   {
+    name: 'Metro',
     hostname: 'www.metro.ca',
     match: '*://*.metro.ca/*',
     adapter: MetroAdapter,

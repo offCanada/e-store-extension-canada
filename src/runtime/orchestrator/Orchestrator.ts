@@ -1,3 +1,4 @@
+import { defaultSettings, Settings, SettingsService } from '@/src/services/settings/SettingsService';
 import { type StoreAdapter } from '../adapter/StoreAdapter';
 import { DOMObserver } from '../observers/DOMObserver';
 import { VisibilityObserver } from '../observers/VisibilityObserver';
@@ -8,16 +9,19 @@ import { ProductBannerInjector } from '@/src/components/ProductBannerInjector';
 import { invalidateCache } from '@/src/utils/invalidateCache';
 
 export class Orchestrator {
+  private settings: Settings = defaultSettings;
   private renderedElements = new Map<Element, Element>();
   private domObserver = new DOMObserver();
   private visibilityObserver = new VisibilityObserver();
   private processedTracker = new ProcessedElementTracker();
 
-  constructor(private readonly adapter: StoreAdapter) {}
+  constructor(
+    private readonly adapter: StoreAdapter, 
+  ) {}
 
-  init() {
-    // TODO: load settings, I18n, etc.
+  async init() {
     invalidateCache();
+    await this.syncSettings();
 
     this.domObserver.start(() => {
       this.render();
@@ -25,16 +29,25 @@ export class Orchestrator {
     this.render();
   }
 
-  private render() {
-    // TODO: check setting to show or not
-    this.renderProductBanner();
-    this.renderListBanner();
+  private async render() {
+    if (this.settings.showProduct) {
+      this.renderProductBanner();
+    }
+
+    if (this.settings.showList) {
+      this.renderListBanner();
+    }
   }
 
-  // use when settings change
-  private refresh() {
+  async refresh() {
     this.clear();
+    await this.syncSettings();
     this.render();
+  }
+
+  private async syncSettings() {
+    const settings = await SettingsService.init();
+    this.settings = settings;
   }
 
   private renderProductBanner() {
