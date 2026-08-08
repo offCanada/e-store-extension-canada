@@ -32,9 +32,15 @@ const ProductCardBanner = ({ product, loading, notFound, onClick }: Props) => {
           <span class="text-sm font-bold text-gray-600 tracking-wide">NutriLens</span>
         </div>
         <div class="flex items-center gap-1.5">
-          {product?.showSearchWarning && (
+          {notFound && (
+            <span title="We couldn't find a match.">
+              <SearchAlert size={16} class="text-red-500" />
+            </span>
+          )}
+
+          {!notFound && product?.showSearchWarning && (
             <span title="We couldn't find exact match, instead showing similar match">
-              <SearchAlert size={14} class="text-amber-500" />
+              <SearchAlert size={16} class="text-amber-500" />
             </span>
           )}
         </div>
