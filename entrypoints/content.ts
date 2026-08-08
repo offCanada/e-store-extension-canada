@@ -6,12 +6,6 @@ export default defineContentScript({
   matches: getStoreMatchPatterns(),
   runAt: 'document_idle',
   async main() {
-    const settings = await SettingsService.init();
-    if (!settings.showStores[window.location.hostname].value) {
-      console.log('Store is turned off in settings.');
-      return;
-    }
-
     const store = resolveStoreAdapter(window.location.hostname);
 
     if (!store) {
