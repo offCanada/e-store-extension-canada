@@ -1,4 +1,4 @@
-import ProductDataService from '@/src/services/product/ProductDataService';
+import ProductApiService from '@/src/services/product/ProductApiService';
 import CacheService from '@/src/services/storage/CacheService';
 import { type BackgroundMessage } from '@/src/types/Background';
 
@@ -8,8 +8,8 @@ export default defineBackground(() => {
   browser.runtime.onMessage.addListener((message: BackgroundMessage, sender, sendResponse) => {
     switch (message.type) {
       case 'GET_PRODUCT_DATA': {
-        const productDataService = new ProductDataService(message.payload);
-        void productDataService.fetch().then((response) => {
+        const api = new ProductApiService(message.payload);
+        void api.fetch().then((response) => {
           sendResponse(response);
         });
         return true;

@@ -81,7 +81,7 @@ const ProductInfoModal = ({ product, close }: ProductInfoModalProps) => {
                     <div class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-gray-100 border border-gray-200">
                       <Scale className="text-gray-400" size={16} />
                       <span class="text-sm text-gray-500">
-                        {Number(product.quantity).toFixed(2)} {product.quantityUnit ?? ''}
+                        {typeof(product.quantity) === "string" ? product.quantity : product.quantityUnit ?? ''}
                       </span>
                     </div>
                   )}

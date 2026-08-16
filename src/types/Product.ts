@@ -18,7 +18,6 @@ export interface StoreProduct {
   name: string | null;
   brand: string | null;
   quantity: string | null;
-  category: string | null;
   searchQuery: string | null;
 }
 

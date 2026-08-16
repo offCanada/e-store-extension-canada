@@ -12,7 +12,6 @@ export interface StoreStructure {
       name: (element: Element) => string | null;
       brand: (element: Element) => string | null;
       quantity: (element: Element) => string | null;
-      category: (element: Element) => string | null;
     };
   };
   listView: {
@@ -24,7 +23,6 @@ export interface StoreStructure {
       name: (element: Element) => string | null;
       brand: (element: Element) => string | null;
       quantity: (element: Element) => string | null;
-      category: (element: Element) => string | null;
     };
   };
 }
