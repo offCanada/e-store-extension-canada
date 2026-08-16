@@ -1,6 +1,7 @@
 export const OpenFoodFactsApiConfig = {
-  source: 'openfoodfacts',
+  source: 'open_food_facts',
   sourceUrl: 'https://world.openfoodfacts.org/',
+  addProductUrl: 'https://world.openfoodfacts.org/contribute/',
   product: {
     lookup: {
       url: 'https://world.openfoodfacts.org/api/v2/product',
@@ -11,9 +12,20 @@ export const OpenFoodFactsApiConfig = {
   },
 };
 
+export const CanadaOFFApiConfig = {
+  source: 'canada_reference_db',
+  sourceUrl: 'https://world.openfoodfacts.org/',
+  addProductUrl: 'https://world.openfoodfacts.org/contribute/',
+  product: {
+    lookup: {
+      url: 'http://localhost:8000/api/v1/products/search',
+    },
+  },
+};
+
 // which source API to use for product data
 export const API = {
-  source: OpenFoodFactsApiConfig.source,
+  source: CanadaOFFApiConfig.source,
 };
 
 export const CacheConfig = {

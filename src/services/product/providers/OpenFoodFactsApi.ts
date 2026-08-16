@@ -1,14 +1,14 @@
-import { ProductDataSource } from './ProductDataSource';
+import { BaseProductApi } from './BaseProductApi';
 
 import { OpenFoodFactsApiConfig as configs } from '@/src/Configs';
 import {
   type OFFProduct,
   type OFFLookupResponse,
   type OFFSearchResponse,
-} from '@/src/types/OpenFoodFacts';
-import { ResponseStatus, type Product, type ProductResponse } from '@/src/types/Product';
+} from '@/src/types/OFFGlobalApi';
+import { ResponseStatus, StoreProduct, type Product, type ProductResponse } from '@/src/types/Product';
 
-export default class OpenFoodFactsApi extends ProductDataSource {
+export default class OpenFoodFactsApi extends BaseProductApi {
   private readonly PRODUCT_FIELDS = [
     'code',
     'nutrient_levels',
@@ -18,6 +18,7 @@ export default class OpenFoodFactsApi extends ProductDataSource {
     'product_name',
     'image_front_small_url',
     'brands',
+    'quantity',
     'product_quantity',
     'product_quantity_unit',
   ];
@@ -36,6 +37,18 @@ export default class OpenFoodFactsApi extends ProductDataSource {
     }
   }
 
+  async getProduct(product: StoreProduct): Promise<ProductResponse> {
+    if (product.code) {
+      return await this.getProductByCode(product.code);
+    }
+
+    if (product.searchQuery) {
+      return await this.getProductsBySearchQuery(product.searchQuery);
+    }
+
+    return this.parseResponse(null);
+  }
+
   async getProductByCode(code: string): Promise<ProductResponse> {
     const url = new URL(`${configs.product.lookup.url}/${code}.json`);
 
@@ -44,9 +57,9 @@ export default class OpenFoodFactsApi extends ProductDataSource {
       fields: this.PRODUCT_FIELDS.join(','),
     }).toString();
 
-    const data = await this.get<OFFLookupResponse>(url);
+    const res = await this.get<OFFLookupResponse>(url);
 
-    return this.parseResponse(data?.product);
+    return this.parseResponse(res?.product);
   }
 
   async getProductsBySearchQuery(query: string): Promise<ProductResponse> {
@@ -59,13 +72,13 @@ export default class OpenFoodFactsApi extends ProductDataSource {
       lc: 'en',
     }).toString();
 
-    const data = await this.get<OFFSearchResponse>(url);
+    const res = await this.get<OFFSearchResponse>(url);
 
-    if (!data?.hits?.length) {
+    if (!res?.hits?.length) {
       return this.parseResponse(null);
     }
 
-    return this.parseResponse(data.hits[0], true);
+    return this.parseResponse(res.hits[0], true);
   }
 
   private parseResponse(
@@ -84,7 +97,7 @@ export default class OpenFoodFactsApi extends ProductDataSource {
       code: data.code,
       name: data.product_name ?? null,
       brand: data.brands ?? null,
-      quantity: data.product_quantity ?? data.quantity ?? null,
+      quantity: data.quantity ?? data.product_quantity ?? null,
       quantityUnit: data.product_quantity_unit ?? null,
       imageUrl: data.image_front_small_url ?? null,
 

@@ -13,7 +13,6 @@ export class MetroAdapter extends StoreAdapter {
         name: (element: Element) => (element as HTMLElement).dataset.productName ?? null,
         brand: (element: Element) => (element as HTMLElement).dataset.productBrand ?? null,
         quantity: (element: Element) => (element as HTMLElement).dataset.productQuantity ?? null,
-        category: (element: Element) => (element as HTMLElement).dataset.productCategory ?? null
       }
     },
     listView: {
@@ -25,7 +24,6 @@ export class MetroAdapter extends StoreAdapter {
         name: (element: Element) => (element as HTMLElement).dataset.productNameEn ?? null,
         brand: (element: Element) => (element as HTMLElement).dataset.productBrandEn ?? null,
         quantity: (element: Element) =>  { return (this.select('.head__unit-details', element)?.textContent) ?? null; },
-        category: (element: Element) => (element as HTMLElement).dataset.productCategoryEn ?? null
       }
     },
   };
@@ -52,37 +50,25 @@ export class MetroAdapter extends StoreAdapter {
 
   // to extract data from product view element
   getDataFromProductViewElement(element: Element): StoreProduct {
-    const name = this.structure.productView.product.name(element);
-    const brand = this.structure.productView.product.brand(element);
-    const quantity = this.structure.productView.product.quantity(element);
-    const searchQuery = (brand + ' ' + name + ' ' + quantity).trim() ?? null;
-
     return {
       code: this.structure.productView.product.barcode(element),
       productId: null,
-      name: name,
-      brand: brand,
-      quantity: quantity,
-      category: this.structure.productView.product.category(element),
-      searchQuery: searchQuery,
+      name: this.structure.productView.product.name(element),
+      brand: this.structure.productView.product.brand(element),
+      quantity: this.structure.productView.product.quantity(element),
+      searchQuery: this.getSearchQuery(element, 'productView'),
     };
   }
 
   // to extract data from product list element
   getDataFromProductListElement(element: Element): StoreProduct {
-    const name = this.structure.listView.product.name(element);
-    const brand = this.structure.listView.product.brand(element);
-    const quantity = this.structure.listView.product.quantity(element);
-    const searchQuery = (brand + ' ' + name + ' ' + quantity).trim() ?? null;
-
     return {
       code: this.structure.listView.product.barcode(element),
       productId: this.structure.listView.product.id(element),
-      name: name,
-      brand: brand,
-      quantity: quantity,
-      category: this.structure.listView.product.category(element),
-      searchQuery: searchQuery,
+      name: this.structure.listView.product.name(element),
+      brand: this.structure.listView.product.brand(element),
+      quantity: this.structure.listView.product.quantity(element),
+      searchQuery: this.getSearchQuery(element, 'listView'),
     };
   }
 
@@ -118,5 +104,15 @@ export class MetroAdapter extends StoreAdapter {
     insertionAnchor.before(bannerHost);
 
     return this.getShadowRootContainer(bannerHost);
+  }
+
+  getSearchQuery(element: Element, context: 'productView' | 'listView'): string | null {
+    const selector = context === 'productView' ? this.structure.productView : this.structure.listView;
+    const name = selector.product.name(element);
+    const brand = selector.product.brand(element);
+    const quantity = selector.product.quantity(element);
+    const searchQuery = (brand + ' ' + name + ' ' + quantity).trim() ?? null;
+
+    return searchQuery;
   }
 }

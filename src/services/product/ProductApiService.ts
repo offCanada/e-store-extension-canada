@@ -7,7 +7,7 @@ import { generateHash } from '@/src/utils/hash';
 
 const sourceInstance = SourceFactory.create();
 
-export default class ProductDataService {
+export default class ProductApiService {
   constructor(
     private readonly request: StoreProduct,
     private readonly source = sourceInstance,
@@ -18,20 +18,14 @@ export default class ProductDataService {
     const cacheKey = this.getCacheKey();
 
     if (cacheKey) {
-      const cachedData = await this.cache.get(cacheKey);
-      if (cachedData) return cachedData;
+      const product = await this.cache.get(cacheKey);
+      if (product) return product;
     }
-
-    console.log(this.request);
 
     let response: ProductResponse | null = null;
 
-    if (this.request.code) {
-      response = await this.source.getProductByCode(this.request.code);
-    }
-
-    if (!response && this.request.searchQuery) {
-      response = await this.source.getProductsBySearchQuery(this.request.searchQuery);
+    if (this.request.code || this.request.productId || this.request.searchQuery) {
+      response = await this.source.getProduct(this.request);
     }
 
     if (cacheKey && response?.product) {
@@ -44,6 +38,10 @@ export default class ProductDataService {
   private getCacheKey(): string | null {
     if (this.request.code) {
       return `product_${this.request.code}`;
+    }
+
+    if (this.request.productId) {
+      return `product_${this.request.productId}`
     }
 
     if (this.request.searchQuery) {
