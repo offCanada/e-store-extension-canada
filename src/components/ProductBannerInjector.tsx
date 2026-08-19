@@ -3,13 +3,13 @@ import { useState, useRef, useEffect } from 'preact/hooks';
 
 import { getSharedStyleSheet } from '../utils/sharedStyles';
 
+import { useProductData } from './hooks/useProductData';
 import ProductCardBanner from './ProductCardBanner';
 import ProductInfoModal from './ProductInfoModal';
 import ProductModalLoader from './ProductModalLoader';
 import ProductNotFoundBanner from './ProductNotFoundBanner';
 
-import type { Product, ProductResponse, StoreProduct } from '../types/Product';
-import { useProductData } from './hooks/useProductData';
+import type { StoreProduct } from '../types/Product';
 
 let sharedModalContainer: HTMLElement | null = null;
 

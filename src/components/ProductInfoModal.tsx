@@ -81,7 +81,9 @@ const ProductInfoModal = ({ product, close }: ProductInfoModalProps) => {
                     <div class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-gray-100 border border-gray-200">
                       <Scale className="text-gray-400" size={16} />
                       <span class="text-sm text-gray-500">
-                        {typeof(product.quantity) === "string" ? product.quantity : product.quantityUnit ?? ''}
+                        {typeof product.quantity === 'string'
+                          ? product.quantity
+                          : (product.quantityUnit ?? '')}
                       </span>
                     </div>
                   )}
@@ -111,18 +113,20 @@ const ProductInfoModal = ({ product, close }: ProductInfoModalProps) => {
           </div>
 
           {/* ── Footer ── */}
-          <div class="border-t border-gray-100 bg-gray-50 py-2 text-center">
-            <a
-              href={`https://world.openfoodfacts.org/product/${product.code}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="text-md font-medium text-blue-600 no-underline hover:text-blue-800"
-            >
-              <div className="flex justify-center gap-2 items-center">
-                View on Open Food Facts <ExternalLink size={14} />
-              </div>
-            </a>
-          </div>
+          {product.sourceUrl && (
+            <div class="border-t border-gray-100 bg-gray-50 py-2 text-center">
+              <a
+                href={product.sourceUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-md font-medium text-blue-600 no-underline hover:text-blue-800"
+              >
+                <div className="flex justify-center gap-2 items-center">
+                  View on Open Food Facts <ExternalLink size={14} />
+                </div>
+              </a>
+            </div>
+          )}
         </div>
       </div>
     </>
