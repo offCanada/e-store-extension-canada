@@ -1,19 +1,21 @@
 import { StoreAdapter } from '../StoreAdapter';
 
+import { stores } from '@/src/Configs';
 import { type StoreProduct } from '@/src/types/Product';
 
 export class MetroAdapter extends StoreAdapter {
+  readonly store = stores.metro;
   readonly structure = {
     productView: {
       productElementSelector: '.pdpDetailsContainer',
       uiInjectionElementSelector: '.pdpDetailsContainer',
       product: {
-        id: (element: Element) => null,
+        id: (_element: Element) => null,
         barcode: (element: Element) => (element as HTMLElement).dataset.productCode ?? null,
         name: (element: Element) => (element as HTMLElement).dataset.productName ?? null,
         brand: (element: Element) => (element as HTMLElement).dataset.productBrand ?? null,
         quantity: (element: Element) => (element as HTMLElement).dataset.productQuantity ?? null,
-      }
+      },
     },
     listView: {
       productElementSelector: '.default-product-tile',
@@ -23,8 +25,10 @@ export class MetroAdapter extends StoreAdapter {
         barcode: (element: Element) => (element as HTMLElement).dataset.productCode ?? null,
         name: (element: Element) => (element as HTMLElement).dataset.productNameEn ?? null,
         brand: (element: Element) => (element as HTMLElement).dataset.productBrandEn ?? null,
-        quantity: (element: Element) =>  { return (this.select('.head__unit-details', element)?.textContent) ?? null; },
-      }
+        quantity: (element: Element) => {
+          return this.select('.head__unit-details', element)?.textContent ?? null;
+        },
+      },
     },
   };
 
@@ -57,6 +61,7 @@ export class MetroAdapter extends StoreAdapter {
       brand: this.structure.productView.product.brand(element),
       quantity: this.structure.productView.product.quantity(element),
       searchQuery: this.getSearchQuery(element, 'productView'),
+      store: this.store,
     };
   }
 
@@ -69,13 +74,17 @@ export class MetroAdapter extends StoreAdapter {
       brand: this.structure.listView.product.brand(element),
       quantity: this.structure.listView.product.quantity(element),
       searchQuery: this.getSearchQuery(element, 'listView'),
+      store: this.store,
     };
   }
 
   // to inject banner into product view element
   injectViewItemBanner(target: Element): Element {
     const bannerHost = this.getHostElement();
-    const insertionAnchor = this.select(this.structure.productView.uiInjectionElementSelector, target);
+    const insertionAnchor = this.select(
+      this.structure.productView.uiInjectionElementSelector,
+      target
+    );
 
     if (!insertionAnchor) {
       target.before(bannerHost);
@@ -107,7 +116,8 @@ export class MetroAdapter extends StoreAdapter {
   }
 
   getSearchQuery(element: Element, context: 'productView' | 'listView'): string | null {
-    const selector = context === 'productView' ? this.structure.productView : this.structure.listView;
+    const selector =
+      context === 'productView' ? this.structure.productView : this.structure.listView;
     const name = selector.product.name(element);
     const brand = selector.product.brand(element);
     const quantity = selector.product.quantity(element);

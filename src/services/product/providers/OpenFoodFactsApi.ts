@@ -6,7 +6,12 @@ import {
   type OFFLookupResponse,
   type OFFSearchResponse,
 } from '@/src/types/OFFGlobalApi';
-import { ResponseStatus, StoreProduct, type Product, type ProductResponse } from '@/src/types/Product';
+import {
+  ResponseStatus,
+  type StoreProduct,
+  type Product,
+  type ProductResponse,
+} from '@/src/types/Product';
 
 export default class OpenFoodFactsApi extends BaseProductApi {
   private readonly PRODUCT_FIELDS = [
@@ -22,20 +27,6 @@ export default class OpenFoodFactsApi extends BaseProductApi {
     'product_quantity',
     'product_quantity_unit',
   ];
-
-  protected async get<T>(url: URL): Promise<T | null> {
-    try {
-      const response = await fetch(url);
-
-      if (!response.ok) {
-        return null;
-      }
-
-      return response.json() as Promise<T>;
-    } catch {
-      return null;
-    }
-  }
 
   async getProduct(product: StoreProduct): Promise<ProductResponse> {
     if (product.code) {
@@ -114,6 +105,7 @@ export default class OpenFoodFactsApi extends BaseProductApi {
       ecoscoreGrade: data.ecoscore_grade !== 'not-applicable' ? data.ecoscore_grade : 'unknown',
 
       showSearchWarning: isSearchApi,
+      sourceUrl: configs.sourceUrl + data.code,
     };
 
     return {

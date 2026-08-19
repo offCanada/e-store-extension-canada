@@ -9,9 +9,19 @@ export default defineBackground(() => {
     switch (message.type) {
       case 'GET_PRODUCT_DATA': {
         const api = new ProductApiService(message.payload);
-        void api.fetch().then((response) => {
-          sendResponse(response);
-        });
+        api
+          .fetch()
+          .then((response) => {
+            sendResponse(response);
+          })
+          .catch((error) => {
+            console.log('Error fetching product data:', error);
+            sendResponse({
+              status: 'ERROR',
+              message: 'Failed to fetch product data',
+              product: null,
+            });
+          });
         return true;
       }
 
@@ -27,18 +37,23 @@ export default defineBackground(() => {
     }
   });
 
-  browser.storage.onChanged.addListener(async (changes, namespace) => {
-    if (namespace === "local" && changes["settings"]) {
-      browser.tabs.query({}).then((tabs) => {
-        tabs.forEach((tab) => {
-          if (tab.id) {
-            browser.tabs.sendMessage(tab.id, {
-              type: "SETTINGS_CHANGED",
-              settings: changes["settings"].newValue,
-            }).catch(() => {});
-          }
-        });
-      });
+  browser.storage.onChanged.addListener((changes, namespace) => {
+    if (namespace === 'local' && changes['settings']) {
+      browser.tabs
+        .query({})
+        .then((tabs) => {
+          tabs.forEach((tab) => {
+            if (tab.id) {
+              browser.tabs
+                .sendMessage(tab.id, {
+                  type: 'SETTINGS_CHANGED',
+                  settings: changes['settings'].newValue,
+                })
+                .catch(() => {});
+            }
+          });
+        })
+        .catch(() => {});
     }
   });
 });

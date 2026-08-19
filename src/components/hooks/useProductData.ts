@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'preact/hooks';
 import { browser } from 'wxt/browser';
 
-import { type StoreProduct, type ProductResponse, Product } from '@/src/types/Product';
-import { GetProductDataMessage } from '@/src/types/Background';
+import { type GetProductDataMessage } from '@/src/types/Background';
+import { type StoreProduct, type ProductResponse, type Product } from '@/src/types/Product';
 
 export function useProductData(storeProduct: StoreProduct) {
   const [loading, setLoading] = useState(true);
@@ -26,7 +26,7 @@ export function useProductData(storeProduct: StoreProduct) {
         setProduct(res.product);
       })
       .catch((err) => {
-        console.log(err)
+        console.log(err);
         if (!cancelled) setNotFound(true);
       })
       .finally(() => {

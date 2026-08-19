@@ -1,31 +1,52 @@
-import { jsx } from 'preact/jsx-runtime';
 import { StoreAdapter } from '../StoreAdapter';
 
+import { stores } from '@/src/Configs';
 import { type StoreProduct } from '@/src/types/Product';
 
 export class VoilaAdapter extends StoreAdapter {
+  readonly store = stores.voila;
   readonly structure = {
     productView: {
       productElementSelector: '[data-synthetics="bop-view"] > div:nth-last-of-type(2) > div > div',
       uiInjectionElementSelector: '[data-synthetics="bop-view"] > div:nth-last-of-type(2) h1',
       product: {
-        id: (element: Element) => { return this.getProductIdFromURL() },
-        barcode: (element: Element) => null,
-        name: (element: Element) => { return this.select('[data-synthetics="bop-view"] > div:nth-last-of-type(2) h1', element)?.textContent ?? null },
-        brand: (element: Element) => null,
-        quantity: (element: Element) => { return this.select('[data-test="size-container"] span:nth-of-type(2)', element)?.textContent ?? null },
-      }
+        id: (_element: Element) => {
+          return this.getProductIdFromURL();
+        },
+        barcode: (_element: Element) => null,
+        name: (element: Element) => {
+          return (
+            this.select('[data-synthetics="bop-view"] > div:nth-last-of-type(2) h1', element)
+              ?.textContent ?? null
+          );
+        },
+        brand: (_element: Element) => null,
+        quantity: (element: Element) => {
+          return (
+            this.select('[data-test="size-container"] span:nth-of-type(2)', element)?.textContent ??
+            null
+          );
+        },
+      },
     },
     listView: {
       productElementSelector: '.product-card-container',
       uiInjectionElementSelector: '.product-card-container',
       product: {
-        id: (element: Element) => { return this.getProductIdFromDOM(element) },
-        barcode: (element: Element) => null,
-        name: (element: Element) => { return this.select('[data-test="fop-title"]', element)?.textContent ?? null },
-        brand: (element: Element) => null,
-        quantity: (element: Element) => { return this.select('[data-test="fop-size"] span:nth-of-type(1)', element)?.textContent ?? null },
-      }
+        id: (element: Element) => {
+          return this.getProductIdFromDOM(element);
+        },
+        barcode: (_element: Element) => null,
+        name: (element: Element) => {
+          return this.select('[data-test="fop-title"]', element)?.textContent ?? null;
+        },
+        brand: (_element: Element) => null,
+        quantity: (element: Element) => {
+          return (
+            this.select('[data-test="fop-size"] span:nth-of-type(1)', element)?.textContent ?? null
+          );
+        },
+      },
     },
   };
 
@@ -58,6 +79,7 @@ export class VoilaAdapter extends StoreAdapter {
       brand: this.structure.productView.product.brand(element),
       quantity: this.structure.productView.product.quantity(element),
       searchQuery: this.structure.productView.product.name(element),
+      store: this.store,
     };
   }
 
@@ -70,14 +92,17 @@ export class VoilaAdapter extends StoreAdapter {
       brand: this.structure.listView.product.brand(element),
       quantity: this.structure.listView.product.quantity(element),
       searchQuery: this.structure.listView.product.name(element),
+      store: this.store,
     };
   }
 
   // to inject banner into product view element
   injectViewItemBanner(target: Element): Element {
     const bannerHost = this.getHostElement();
-    const insertionAnchor =
-      this.select(this.structure.productView.uiInjectionElementSelector, target)
+    const insertionAnchor = this.select(
+      this.structure.productView.uiInjectionElementSelector,
+      target
+    );
 
     if (!insertionAnchor) {
       target.after(bannerHost);

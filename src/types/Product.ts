@@ -19,6 +19,7 @@ export interface StoreProduct {
   brand: string | null;
   quantity: string | null;
   searchQuery: string | null;
+  store: string;
 }
 
 export interface Product {
@@ -33,6 +34,7 @@ export interface Product {
   novaGroup?: number | 'unknown';
   ecoscoreGrade?: string;
   showSearchWarning?: boolean;
+  sourceUrl?: string;
 }
 
 export interface ProductResponse {

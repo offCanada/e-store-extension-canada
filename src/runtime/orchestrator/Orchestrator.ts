@@ -1,4 +1,3 @@
-import { defaultSettings, Settings, SettingsService } from '@/src/services/settings/SettingsService';
 import { type StoreAdapter } from '../adapter/StoreAdapter';
 import { DOMObserver } from '../observers/DOMObserver';
 import { VisibilityObserver } from '../observers/VisibilityObserver';
@@ -6,6 +5,11 @@ import { Renderer } from '../rendering/Renderer';
 import { ProcessedElementTracker } from '../state/ProcessedElementTracker';
 
 import { ProductBannerInjector } from '@/src/components/ProductBannerInjector';
+import {
+  defaultSettings,
+  type Settings,
+  SettingsService,
+} from '@/src/services/settings/SettingsService';
 import { invalidateCache } from '@/src/utils/invalidateCache';
 
 export class Orchestrator {
@@ -15,11 +19,9 @@ export class Orchestrator {
   private visibilityObserver = new VisibilityObserver();
   private processedTracker = new ProcessedElementTracker();
 
-  constructor(
-    private readonly adapter: StoreAdapter, 
-  ) {}
+  constructor(private readonly adapter: StoreAdapter) {}
 
-  async init() {
+  async init(): Promise<void> {
     invalidateCache();
     await this.syncSettings();
 
@@ -29,12 +31,12 @@ export class Orchestrator {
     this.render();
   }
 
-  private async render() {
+  private render(): void {
     if (!this.settings.showStores[window.location.hostname].value) {
       console.log('Store is turned off in settings.');
       return;
     }
-    
+
     if (this.settings.showProduct) {
       this.renderProductBanner();
     }
@@ -44,7 +46,7 @@ export class Orchestrator {
     }
   }
 
-  async refresh() {
+  async refresh(): Promise<void> {
     this.clear();
     await this.syncSettings();
     this.render();
@@ -55,7 +57,7 @@ export class Orchestrator {
     this.settings = settings;
   }
 
-  private renderProductBanner() {
+  private renderProductBanner(): void {
     if (!this.adapter.doesProductViewExist()) {
       return;
     }
@@ -72,7 +74,7 @@ export class Orchestrator {
     this.renderedElements.set(productElement, container);
   }
 
-  private renderListBanner() {
+  private renderListBanner(): void {
     if (!this.adapter.doesProductListExist()) {
       return;
     }
@@ -91,7 +93,7 @@ export class Orchestrator {
     });
   }
 
-  private mountListBanner(element: Element) {
+  private mountListBanner(element: Element): void {
     if (this.processedTracker.isProcessed(element)) {
       return;
     }
@@ -103,7 +105,7 @@ export class Orchestrator {
     this.renderedElements.set(element, container);
   }
 
-  clear() {
+  private clear(): void {
     this.visibilityObserver.clear();
     this.renderedElements.forEach((container, element) => {
       this.processedTracker.unmark(element);
@@ -111,10 +113,5 @@ export class Orchestrator {
     });
     this.renderedElements.clear();
     this.processedTracker.clear();
-  }
-
-  destroy() {
-    this.clear();
-    this.domObserver.stop();
   }
 }

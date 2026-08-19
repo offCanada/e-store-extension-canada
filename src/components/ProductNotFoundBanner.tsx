@@ -1,4 +1,4 @@
-import { ExternalLink, SearchAlert, X } from 'lucide-preact';
+import { SearchAlert, X } from 'lucide-preact';
 import { type PublicPath } from 'wxt/browser';
 
 const ProductNotFoundBanner = ({ close }: { close: () => void }) => {
@@ -25,20 +25,12 @@ const ProductNotFoundBanner = ({ close }: { close: () => void }) => {
           <SearchAlert size={24} class="text-gray-400" />
         </div>
         <div>
-          {/* {code && (
-                        <div class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-gray-100 border border-gray-200">
-                            <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" class="size-4 text-gray-400 shrink-0">
-                                <path d="M2 4h2v16H2V4zm3 0h1v16H5V4zm2 0h2v16H7V4zm3 0h1v16h-1V4zm2 0h2v16h-2V4zm3 0h1v16h-1V4zm2 0h2v16h-2V4z" />
-                            </svg>
-                            <span class="text-[11px] font-mono text-gray-500 tracking-wide">{code}</span>
-                        </div>
-                    )} */}
           <p class="text-md font-semibold text-gray-700">No match found</p>
           <p class="mt-1 text-sm text-gray-400 leading-relaxed">
-            This product isn't in the Open Food Facts database yet. You can help by adding it.
+            This product isn't in our database yet.
           </p>
         </div>
-        <a
+        {/* <a
           href="https://world.openfoodfacts.org/contribute"
           target="_blank"
           rel="noopener noreferrer"
@@ -47,7 +39,7 @@ const ProductNotFoundBanner = ({ close }: { close: () => void }) => {
           <div className="flex justify-center gap-2">
             Add to Open Food Facts <ExternalLink size={12} />
           </div>
-        </a>
+        </a> */}
       </div>
     </div>
   );
