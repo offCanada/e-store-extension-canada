@@ -73,6 +73,7 @@ stay in browser-local storage.
 pnpm dev              # Chrome dev server with auto-reload
 pnpm dev:firefox      # Firefox dev server
 pnpm compile && pnpm lint && pnpm format:check   # CI-parity checks
+pnpm test             # unit tests (vitest)
 ```
 
 See [`CONTRIBUTING.md`](CONTRIBUTING.md). To add support for a new store, follow

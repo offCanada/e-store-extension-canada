@@ -78,7 +78,7 @@ New providers require an issue discussion first.
 
 ## PR checklist
 
-- `pnpm compile && pnpm lint && pnpm format:check` green
+- `pnpm compile && pnpm lint && pnpm format:check && pnpm test` green
 - QA evidence attached ·
 - Conventional Commits and PR title (e.g. `feat: support acme.ca store`)
 - AI assistance disclosed per template.

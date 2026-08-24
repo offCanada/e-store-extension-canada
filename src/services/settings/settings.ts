@@ -70,6 +70,25 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 
 const STORE_HOSTS = new Set(stores.map((store) => store.hostname));
 
+/** Keeps only string values for known preference keys; anything else falls back to defaults. */
+function sanitizePreferences(input: unknown): Settings['preferences'] {
+  const defaults = getDefaultSettings().preferences;
+
+  if (!isRecord(input)) {
+    return defaults;
+  }
+
+  const merged = { ...defaults };
+  for (const key of Object.keys(defaults) as Array<keyof typeof defaults>) {
+    const value = input[key];
+    if (typeof value === 'string') {
+      merged[key] = value;
+    }
+  }
+
+  return merged;
+}
+
 function sanitizeStoreSettings(input: unknown): StoreSettings {
   if (!isRecord(input)) return {};
 
@@ -94,12 +113,10 @@ function mergeWithDefaults(saved: unknown): Settings {
     return base;
   }
 
-  const preferences = isRecord(saved.preferences) ? saved.preferences : {};
-
   return {
     ...base,
     ...saved,
-    preferences: { ...base.preferences, ...preferences },
+    preferences: sanitizePreferences(saved.preferences),
     showStores: { ...base.showStores, ...sanitizeStoreSettings(saved.showStores) },
   };
 }
