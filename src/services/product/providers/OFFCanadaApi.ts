@@ -1,6 +1,6 @@
 import { BaseProductApi } from './BaseProductApi';
 
-import { OFFCanadaApiConfig as configs } from '@/src/Configs';
+import { OFFCanadaApiConfig as configs } from '@/src/configs';
 import { type OFFCanadaProduct, type OFFCanadaSearchResponse } from '@/src/types/OFFCanadaApi';
 import {
   type StoreProduct,
@@ -9,7 +9,7 @@ import {
   type Product,
 } from '@/src/types/Product';
 
-export default class OFFCanadaApi extends BaseProductApi {
+export class OFFCanadaApi extends BaseProductApi {
   async getProduct(product: StoreProduct): Promise<ProductResponse> {
     const queryParams = {
       product_id: product.productId ?? '',

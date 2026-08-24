@@ -43,11 +43,11 @@ git clone https://github.com/offCanada/e-store-extension-canada.git
 cd e-store-extension-canada
 pnpm install
 pnpm build            # Chrome → .output/chrome-mv3/
-pnpm build:firefox    # Firefox → .output/firefox-mv3/
+pnpm build:firefox    # Firefox → .output/firefox-mv2/
 ```
 
 - **Chrome:** `chrome://extensions` → enable **Developer mode** → **Load unpacked** → select `.output/chrome-mv3`
-- **Firefox:** `about:debugging#/runtime/this-firefox` → **Load Temporary Add-on…** → select `manifest.json` inside `.output/firefox-mv3`
+- **Firefox:** `about:debugging#/runtime/this-firefox` → **Load Temporary Add-on…** → select `manifest.json` inside `.output/firefox-mv2`
 
 Then open the popup to configure settings and browse a supported store — badges appear
 automatically; click one for details.

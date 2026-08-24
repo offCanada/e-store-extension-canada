@@ -5,15 +5,12 @@ import { Renderer } from '../rendering/Renderer';
 import { ProcessedElementTracker } from '../state/ProcessedElementTracker';
 
 import { ProductBannerInjector } from '@/src/components/ProductBannerInjector';
-import {
-  defaultSettings,
-  type Settings,
-  SettingsService,
-} from '@/src/services/settings/SettingsService';
+import { getDefaultSettings, initSettings, type Settings } from '@/src/services/settings/settings';
 import { invalidateCache } from '@/src/utils/invalidateCache';
+import { debugLog } from '@/src/utils/logger';
 
 export class Orchestrator {
-  private settings: Settings = defaultSettings;
+  private settings: Settings = getDefaultSettings();
   private renderedElements = new Map<Element, Element>();
   private domObserver = new DOMObserver();
   private visibilityObserver = new VisibilityObserver();
@@ -32,8 +29,9 @@ export class Orchestrator {
   }
 
   private render(): void {
-    if (!this.settings.showStores[window.location.hostname].value) {
-      console.log('Store is turned off in settings.');
+    const isStoreEnabled = this.settings.showStores[window.location.hostname]?.value;
+    if (!isStoreEnabled) {
+      debugLog(`Store is turned off in settings: ${window.location.hostname}`);
       return;
     }
 
@@ -53,8 +51,7 @@ export class Orchestrator {
   }
 
   private async syncSettings() {
-    const settings = await SettingsService.init();
-    this.settings = settings;
+    this.settings = await initSettings();
   }
 
   private renderProductBanner(): void {
@@ -70,7 +67,7 @@ export class Orchestrator {
     this.processedTracker.mark(productElement);
     const data = this.adapter.getDataFromProductViewElement(productElement);
     const container = this.adapter.injectViewItemBanner(productElement);
-    Renderer.mount(ProductBannerInjector, container, data);
+    Renderer.mount(ProductBannerInjector, container, { storeProduct: data });
     this.renderedElements.set(productElement, container);
   }
 
@@ -101,7 +98,7 @@ export class Orchestrator {
     this.processedTracker.mark(element);
     const data = this.adapter.getDataFromProductListElement(element);
     const container = this.adapter.injectListItemBanner(element);
-    Renderer.mount(ProductBannerInjector, container, data);
+    Renderer.mount(ProductBannerInjector, container, { storeProduct: data });
     this.renderedElements.set(element, container);
   }
 

@@ -1,25 +1,22 @@
-import CacheService from '../storage/CacheService';
+import { getCachedProduct, setCachedProduct } from '../storage/cache';
 
 import { type BaseProductApi } from './providers/BaseProductApi';
-import SourceFactory from './SourceFactory';
 
+import { getStoreProvider } from '@/src/runtime/adapter';
 import { type ProductResponse, type StoreProduct } from '@/src/types/Product';
 import { generateHash } from '@/src/utils/hash';
 
 export default class ProductApiService {
   private readonly source: BaseProductApi;
-  constructor(
-    private readonly request: StoreProduct,
-    private readonly cache = CacheService.getInstance()
-  ) {
-    this.source = SourceFactory.create(request.store);
+  constructor(private readonly request: StoreProduct) {
+    this.source = getStoreProvider(request.store);
   }
 
   async fetch(): Promise<ProductResponse | null> {
     const cacheKey = this.getCacheKey();
 
     if (cacheKey) {
-      const product = await this.cache.get(cacheKey);
+      const product = await getCachedProduct(cacheKey);
       if (product) return product;
     }
 
@@ -30,7 +27,7 @@ export default class ProductApiService {
     }
 
     if (cacheKey && response?.product) {
-      void this.cache.set(cacheKey, response);
+      void setCachedProduct(cacheKey, response);
     }
 
     return response;

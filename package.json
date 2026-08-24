@@ -1,9 +1,14 @@
 {
-  "name": "wxt-starter",
-  "description": "manifest.json description",
+  "name": "e-store-extension-canada",
+  "description": "NutriLens — Open Food Facts scores (Nutri-Score, Eco-Score, NOVA) overlaid on Canadian online grocery stores",
   "private": true,
   "license": "MIT",
-  "version": "0.0.0",
+  "author": "Open Food Facts Canada contributors",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/offCanada/e-store-extension-canada.git"
+  },
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
     "dev": "wxt",

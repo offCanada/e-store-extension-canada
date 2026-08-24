@@ -16,7 +16,7 @@ Create `src/runtime/adapter/stores/NewStoreAdapter.ts` extending
 
 ```ts
 export class NewStoreAdapter extends StoreAdapter {
-  readonly store = stores.newstore; // add key in src/Configs.ts
+  readonly store = STORE_KEYS.newstore; // add the key to STORE_KEYS in src/configs.ts
   readonly structure = {
     productView: {
       productElementSelector: '…',
@@ -27,39 +27,45 @@ export class NewStoreAdapter extends StoreAdapter {
       /* same shape */
     },
   };
-  // implement: doesProductViewExist/doesProductListExist,
-  // getProductViewElement/getProductListElements,
-  // getDataFromProductViewElement/getDataFromProductListElement → StoreProduct,
-  // injectViewItemBanner/injectListItemBanner → shadow-root container
+
+  // Only banner injection is store-specific:
+  injectViewItemBanner(target: Element): Element;
+  injectListItemBanner(target: Element): Element;
+
+  // Optional hook — default builds "brand name quantity" from the extractors:
+  // protected override buildSearchQuery(element, view): string | null
 }
 ```
 
-Reference implementations: [`MetroAdapter`](../src/runtime/adapter/stores/MetroAdapter.ts), [`VoilaAdapter`](../src/runtime/adapter/stores/VoilaAdapter.ts).
+Existence checks, element retrieval and `StoreProduct` extraction are **inherited** —
+the base class implements them entirely from your `structure`. Reference
+implementations: [`MetroAdapter`](../src/runtime/adapter/stores/MetroAdapter.ts),
+[`VoilaAdapter`](../src/runtime/adapter/stores/VoilaAdapter.ts).
 
-## 3. Choose the data source
+## 3. Register the store
+
+Append one entry to `src/runtime/adapter/index.ts` — this single record drives content-script
+match patterns, popup settings toggles, hostname resolution and data-source wiring:
+
+```ts
+{
+  key: STORE_KEYS.newstore,        // stable id for messages, cache keys, settings
+  name: 'NewStore',                // display name in popup settings
+  hostname: 'www.newstore.ca',     // exact hostname — resolution is exact-match!
+  match: '*://*.newstore.ca/*',
+  adapter: NewStoreAdapter,
+  provider: OpenFoodFactsApi,      // see table below
+}
+```
 
 | Situation             | Provider                                                                                                       |
 | --------------------- | -------------------------------------------------------------------------------------------------------------- |
 | Barcodes / search     | `OpenFoodFactsApi` — uses OFF product api & search api                                                         |
 | Product Id / barcodes | `OFFCanadaApi` — Canada Reference DB; [Product API](https://github.com/offCanada/e-store-extension-canada-api) |
 
-Wire it in two places: add the store key to `stores` in `src/Configs.ts`, and map it in
-`SourceFactory.create()`. New providers require an issue discussion first.
+New providers require an issue discussion first.
 
-## 4. Register the store
-
-Append to `src/runtime/adapter/index.ts`:
-
-```ts
-{
-  name: 'NewStore',                // display name in popup settings
-  hostname: 'www.newstore.ca',     // exact hostname — resolution is exact-match!
-  match: '*://*.newstore.ca/*',
-  adapter: NewStoreAdapter,
-}
-```
-
-## 5. Manual QA checklist
+## 4. Manual QA checklist
 
 - [ ] PDP: banner appears once, correct scores, no layout breakage.
 - [ ] Listing: exactly one banner per visible card (dedup works).

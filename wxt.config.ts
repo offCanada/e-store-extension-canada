@@ -8,14 +8,15 @@ export default defineConfig({
     plugins: [preact(), tailwindcss()],
   }),
   manifest: {
-    name: 'E-Store Extension Core',
-    description: 'E-Store Extension Core',
-    version: '0.0.1',
+    name: 'NutriLens – Your Health Lens',
+    description:
+      'See Nutri-Score, Eco-Score and NOVA badges while shopping online at Canadian grocery stores.',
+    // Version is sourced from package.json (single source of truth)
     host_permissions: ['https://world.openfoodfacts.org/*', 'https://search.openfoodfacts.org/*'],
     permissions: ['storage', 'unlimitedStorage'],
     web_accessible_resources: [
       {
-        resources: ['score/*.svg', 'logos/*.svg'],
+        resources: ['score/*.svg', 'logos/*.svg', 'fonts/*.woff2'],
         matches: ['<all_urls>'],
       },
     ],

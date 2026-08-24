@@ -1,7 +1,7 @@
 import Header from './Header';
 import SettingsComponent from './Settings';
 
-import { type Settings } from '@/src/services/settings/SettingsService';
+import { type Settings } from '@/src/services/settings/settings';
 
 interface PopupProps {
   settings: Settings;

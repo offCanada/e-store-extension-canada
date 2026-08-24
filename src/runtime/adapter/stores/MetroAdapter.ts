@@ -1,10 +1,9 @@
 import { StoreAdapter } from '../StoreAdapter';
 
-import { stores } from '@/src/Configs';
-import { type StoreProduct } from '@/src/types/Product';
+import { STORE_KEYS } from '@/src/configs';
 
 export class MetroAdapter extends StoreAdapter {
-  readonly store = stores.metro;
+  readonly store = STORE_KEYS.metro;
   readonly structure = {
     productView: {
       productElementSelector: '.pdpDetailsContainer',
@@ -31,52 +30,6 @@ export class MetroAdapter extends StoreAdapter {
       },
     },
   };
-
-  // to check if product view exists
-  doesProductViewExist(): boolean {
-    return !!this.select(this.structure.productView.productElementSelector);
-  }
-
-  // to check if product list exists
-  doesProductListExist(): boolean {
-    return !!this.select(this.structure.listView.productElementSelector);
-  }
-
-  // to get product view element
-  getProductViewElement(): Element | null {
-    return this.select(this.structure.productView.productElementSelector);
-  }
-
-  // to get product list elements
-  getProductListElements(): Element[] {
-    return this.selectAll(this.structure.listView.productElementSelector);
-  }
-
-  // to extract data from product view element
-  getDataFromProductViewElement(element: Element): StoreProduct {
-    return {
-      code: this.structure.productView.product.barcode(element),
-      productId: null,
-      name: this.structure.productView.product.name(element),
-      brand: this.structure.productView.product.brand(element),
-      quantity: this.structure.productView.product.quantity(element),
-      searchQuery: this.getSearchQuery(element, 'productView'),
-      store: this.store,
-    };
-  }
-
-  // to extract data from product list element
-  getDataFromProductListElement(element: Element): StoreProduct {
-    return {
-      code: this.structure.listView.product.barcode(element),
-      productId: this.structure.listView.product.id(element),
-      name: this.structure.listView.product.name(element),
-      brand: this.structure.listView.product.brand(element),
-      quantity: this.structure.listView.product.quantity(element),
-      searchQuery: this.getSearchQuery(element, 'listView'),
-      store: this.store,
-    };
-  }
 
   // to inject banner into product view element
   injectViewItemBanner(target: Element): Element {
@@ -113,16 +66,5 @@ export class MetroAdapter extends StoreAdapter {
     insertionAnchor.before(bannerHost);
 
     return this.getShadowRootContainer(bannerHost);
-  }
-
-  getSearchQuery(element: Element, context: 'productView' | 'listView'): string | null {
-    const selector =
-      context === 'productView' ? this.structure.productView : this.structure.listView;
-    const name = selector.product.name(element);
-    const brand = selector.product.brand(element);
-    const quantity = selector.product.quantity(element);
-    const searchQuery = (brand + ' ' + name + ' ' + quantity).trim() ?? null;
-
-    return searchQuery;
   }
 }
