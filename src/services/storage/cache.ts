@@ -41,6 +41,7 @@ export async function invalidateExpiredCache(): Promise<void> {
 
   const entries = await getStoredEntries<CacheData>();
   const cachedEntries = entries.filter(([key]) => key.startsWith('product_'));
+  debugLog(`Found ${cachedEntries.length} cache entries.`);
 
   let invalidatedCount = 0;
   for (const [key, cacheData] of cachedEntries) {

@@ -20,6 +20,7 @@ pnpm dev              # Chrome dev server → load .output/chrome-mv3 unpacked
 pnpm dev:firefox      # Firefox dev server
 pnpm build && pnpm zip        # production Chrome build
 pnpm compile && pnpm lint && pnpm format:check   # run before pushing (CI parity)
+pnpm test             # vitest suite (or pnpm test:watch while iterating)
 ```
 
 Fixes: `pnpm lint:fix`, `pnpm format`.
@@ -49,7 +50,11 @@ through the background worker**; injected UI lives in shadow roots.
 
 ## Testing
 
-No automated suite yet. Verify manually per the QA checklist in
+Unit tests run on [vitest](vitest.config.ts) (`pnpm test`, watch mode: `pnpm test:watch`).
+Colocate tests as `*.test.ts` beside the code (or in a sibling `__tests__/` folder) —
+see `src/utils/hash.test.ts` and `src/services/settings/__tests__/settings.test.ts`
+for pure-logic vs storage-mocked patterns. DOM-dependent modules (adapters, shadow-DOM
+rendering) aren't covered yet; verify them manually per the QA checklist in
 [`docs/ADDING_A_STORE.md`](docs/ADDING_A_STORE.md#4-manual-qa-checklist) and attach
 screenshots/video to your PR.
 
