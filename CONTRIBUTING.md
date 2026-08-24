@@ -29,7 +29,7 @@ Fixes: `pnpm lint:fix`, `pnpm format`.
 - `entrypoints/` — background worker, content-script bootstrap, popup app (WXT)
 - `src/runtime/` — adapter registry + store adapters, Orchestrator render loop, DOM/visibility observers, shadow-DOM rendering, element dedup tracker
 - `src/components/` — Preact UI (banners, modal, popup) · `src/services/` — product APIs + caching + settings
-- `src/types/`, `src/utils/`, `src/Configs.ts` — shared types, helpers, endpoints/TTLs/store keys
+- `src/types/`, `src/utils/`, `src/configs.ts` — shared types, helpers, endpoints/TTLs/store keys
 
 Key concepts: adapters isolate store DOM from logic; the Orchestrator re-renders on every
 debounced DOM mutation and dedups via a data attribute; **all external requests go
@@ -50,7 +50,7 @@ through the background worker**; injected UI lives in shadow roots.
 ## Testing
 
 No automated suite yet. Verify manually per the QA checklist in
-[`docs/ADDING_A_STORE.md`](docs/ADDING_A_STORE.md#5-manual-qa-checklist) and attach
+[`docs/ADDING_A_STORE.md`](docs/ADDING_A_STORE.md#4-manual-qa-checklist) and attach
 screenshots/video to your PR.
 
 ## Commits & PRs

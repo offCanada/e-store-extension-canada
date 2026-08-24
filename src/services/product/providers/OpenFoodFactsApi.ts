@@ -1,6 +1,6 @@
 import { BaseProductApi } from './BaseProductApi';
 
-import { OpenFoodFactsApiConfig as configs } from '@/src/Configs';
+import { OpenFoodFactsApiConfig as configs } from '@/src/configs';
 import {
   type OFFProduct,
   type OFFLookupResponse,
@@ -13,7 +13,7 @@ import {
   type ProductResponse,
 } from '@/src/types/Product';
 
-export default class OpenFoodFactsApi extends BaseProductApi {
+export class OpenFoodFactsApi extends BaseProductApi {
   private readonly PRODUCT_FIELDS = [
     'code',
     'nutrient_levels',
@@ -34,7 +34,7 @@ export default class OpenFoodFactsApi extends BaseProductApi {
     }
 
     if (product.searchQuery) {
-      return await this.getProductsBySearchQuery(product.searchQuery);
+      return await this.getProductBySearchQuery(product.searchQuery);
     }
 
     return this.parseResponse(null);
@@ -53,7 +53,7 @@ export default class OpenFoodFactsApi extends BaseProductApi {
     return this.parseResponse(res?.product);
   }
 
-  async getProductsBySearchQuery(query: string): Promise<ProductResponse> {
+  async getProductBySearchQuery(query: string): Promise<ProductResponse> {
     const url = new URL(configs.product.search.url);
 
     url.search = new URLSearchParams({

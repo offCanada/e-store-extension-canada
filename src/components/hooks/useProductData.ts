@@ -3,6 +3,7 @@ import { browser } from 'wxt/browser';
 
 import { type GetProductDataMessage } from '@/src/types/Background';
 import { type StoreProduct, type ProductResponse, type Product } from '@/src/types/Product';
+import { debugLog } from '@/src/utils/logger';
 
 export function useProductData(storeProduct: StoreProduct) {
   const [loading, setLoading] = useState(true);
@@ -26,7 +27,7 @@ export function useProductData(storeProduct: StoreProduct) {
         setProduct(res.product);
       })
       .catch((err) => {
-        console.log(err);
+        debugLog(err);
         if (!cancelled) setNotFound(true);
       })
       .finally(() => {

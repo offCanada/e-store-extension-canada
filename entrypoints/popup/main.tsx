@@ -4,25 +4,28 @@ import { useState, useEffect } from 'preact/hooks';
 
 import Popup from '@/src/components/popup/Popup';
 import {
-  defaultSettings,
+  getDefaultSettings,
+  initSettings,
+  saveSettings,
   type Settings,
-  SettingsService,
-} from '@/src/services/settings/SettingsService';
+} from '@/src/services/settings/settings';
+import { type SettingsChangedMessage } from '@/src/types/Background';
+
 function App() {
-  const [settings, setSettings] = useState<Settings>(defaultSettings);
+  const [settings, setSettings] = useState<Settings>(getDefaultSettings());
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    SettingsService.init()
+    initSettings()
       .then((saved) => {
         setSettings(saved);
         setReady(true);
       })
       .catch(() => {});
 
-    const handler = (message: { type: string; settings: Settings }) => {
-      if (message.type === 'SETTINGS_CHANGED' && message.settings) {
-        setSettings(message.settings);
+    const handler = (message: SettingsChangedMessage) => {
+      if (message.type === 'SETTINGS_CHANGED' && message.payload) {
+        setSettings(message.payload);
       }
     };
 
@@ -32,11 +35,9 @@ function App() {
 
   const handleSettingsChange = (updated: Settings) => {
     setSettings(updated);
-    SettingsService.getInstance()
-      .set(updated)
-      .catch((err) => {
-        console.log('Error saving settings:', err);
-      });
+    saveSettings(updated).catch((err) => {
+      console.error('Error saving settings:', err);
+    });
   };
 
   if (!ready) return null;

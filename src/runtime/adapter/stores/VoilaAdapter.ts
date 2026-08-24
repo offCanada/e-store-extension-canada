@@ -1,10 +1,9 @@
-import { StoreAdapter } from '../StoreAdapter';
+import { StoreAdapter, type ViewStructure } from '../StoreAdapter';
 
-import { stores } from '@/src/Configs';
-import { type StoreProduct } from '@/src/types/Product';
+import { STORE_KEYS } from '@/src/configs';
 
 export class VoilaAdapter extends StoreAdapter {
-  readonly store = stores.voila;
+  readonly store = STORE_KEYS.voila;
   readonly structure = {
     productView: {
       productElementSelector: '[data-synthetics="bop-view"] > div:nth-last-of-type(2) > div > div',
@@ -50,50 +49,9 @@ export class VoilaAdapter extends StoreAdapter {
     },
   };
 
-  // to check if product view exists
-  doesProductViewExist(): boolean {
-    return !!this.select(this.structure.productView.productElementSelector);
-  }
-
-  // to check if product list exists
-  doesProductListExist(): boolean {
-    return !!this.select(this.structure.listView.productElementSelector);
-  }
-
-  // to get product view element
-  getProductViewElement(): Element | null {
-    return this.select(this.structure.productView.productElementSelector);
-  }
-
-  // to get product list elements
-  getProductListElements(): Element[] {
-    return this.selectAll(this.structure.listView.productElementSelector);
-  }
-
-  // to extract data from product view element
-  getDataFromProductViewElement(element: Element): StoreProduct {
-    return {
-      code: this.structure.productView.product.barcode(element),
-      productId: this.structure.productView.product.id(element),
-      name: this.structure.productView.product.name(element),
-      brand: this.structure.productView.product.brand(element),
-      quantity: this.structure.productView.product.quantity(element),
-      searchQuery: this.structure.productView.product.name(element),
-      store: this.store,
-    };
-  }
-
-  // to extract data from product list element
-  getDataFromProductListElement(element: Element): StoreProduct {
-    return {
-      productId: this.structure.listView.product.id(element),
-      code: this.structure.listView.product.barcode(element),
-      name: this.structure.listView.product.name(element),
-      brand: this.structure.listView.product.brand(element),
-      quantity: this.structure.listView.product.quantity(element),
-      searchQuery: this.structure.listView.product.name(element),
-      store: this.store,
-    };
+  /** Voilà has no barcodes in its DOM — the product name is the best search key. */
+  protected override buildSearchQuery(element: Element, view: ViewStructure): string | null {
+    return view.product.name(element);
   }
 
   // to inject banner into product view element
@@ -139,10 +97,9 @@ export class VoilaAdapter extends StoreAdapter {
     return href.split('/').pop() ?? null;
   }
 
-  getProductIdFromURL(): string | null {
-    const productLink = window.location.href;
-    if (!productLink) return null;
+  getProductIdFromURL(url: string = window.location.href): string | null {
+    if (!url) return null;
 
-    return productLink.split('/').pop() ?? null;
+    return url.split('/').pop() ?? null;
   }
 }

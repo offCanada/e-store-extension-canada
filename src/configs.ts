@@ -27,7 +27,10 @@ export const CacheConfig = {
   invalidation_timestamp_key: 'lastCacheInvalidationTimestamp',
 };
 
-export const stores = {
+/** Stable store identifiers used in messages, cache keys and settings. */
+export const STORE_KEYS = {
   metro: 'metro',
   voila: 'voila',
-};
+} as const;
+
+export type StoreKey = keyof typeof STORE_KEYS;

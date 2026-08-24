@@ -1,7 +1,7 @@
 import { createPortal } from 'preact/compat';
 import { useState, useRef, useEffect } from 'preact/hooks';
 
-import { getSharedStyleSheet } from '../utils/sharedStyles';
+import { getSharedStyleSheet, BANNER_OVERLAY_Z_INDEX } from '../utils/sharedStyles';
 
 import { useProductData } from './hooks/useProductData';
 import ProductCardBanner from './ProductCardBanner';
@@ -27,7 +27,7 @@ function getSharedModalContainer() {
 
   const host = document.createElement('div');
   host.setAttribute('data-nutrilens-modal', 'true');
-  host.style.cssText = 'position:fixed;inset:0;z-index:2147483647;pointer-events:none;';
+  host.style.cssText = `position:fixed;inset:0;z-index:${BANNER_OVERLAY_Z_INDEX};pointer-events:none;`;
   document.body.appendChild(host);
 
   const shadow = host.attachShadow({ mode: 'open' });
@@ -42,7 +42,11 @@ function getSharedModalContainer() {
   return container;
 }
 
-export function ProductBannerInjector(storeProduct: StoreProduct) {
+export interface ProductBannerProps {
+  storeProduct: StoreProduct;
+}
+
+export function ProductBannerInjector({ storeProduct }: ProductBannerProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { loading, notFound, product } = useProductData(storeProduct);
   const portalContainerRef = useRef<HTMLElement | null>(null);
@@ -66,27 +70,11 @@ export function ProductBannerInjector(storeProduct: StoreProduct) {
     createPortal(
       <div
         onClick={closeModal}
-        style="pointer-events:auto; position:fixed; inset:0; z-index:2147483647;
+        style={`pointer-events:auto; position:fixed; inset:0; z-index:${BANNER_OVERLAY_Z_INDEX};
        background:rgba(0,0,0,0.45); display:flex; align-items:center;
        justify-content:center;
-       backdrop-filter:blur(2px); animation:nlFadeIn 0.15s ease;"
+       backdrop-filter:blur(2px); animation:nlFadeIn 0.15s ease;`}
       >
-        <style>{`
-        @keyframes nlFadeIn { from{opacity:0} to{opacity:1} }
-        @keyframes nlSlideUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
-        .nl-modal-card {
-          animation: nlSlideUp 0.18s ease;
-          width: min(480px, calc(100vw - 32px));
-          max-height: 88vh;
-          overflow-y: auto;
-          border-radius: 16px;
-          background: #fff;
-          box-shadow: 0 8px 40px rgba(0,0,0,0.22);
-          scrollbar-width: none;
-        }
-        .nl-modal-card::-webkit-scrollbar { display: none; }
-      `}</style>
-
         <div class="nl-modal-card" onClick={(e) => e.stopPropagation()}>
           <div>{modalContent()}</div>
         </div>

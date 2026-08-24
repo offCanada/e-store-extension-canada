@@ -24,7 +24,6 @@ const SCORE_DESCRIPTIONS: Record<string, string> = {
 export function getScoreDescription(scoreType: string, score: string): string | undefined {
   const prefix = scoreType.toLowerCase().replace('-', '_');
   const normalizedScore = score.toLowerCase().replace('-', '_');
-  console.log(prefix, normalizedScore);
 
   return SCORE_DESCRIPTIONS[`${prefix}_${normalizedScore}`];
 }

@@ -1,10 +1,9 @@
 import ProductApiService from '@/src/services/product/ProductApiService';
-import CacheService from '@/src/services/storage/CacheService';
-import { type BackgroundMessage } from '@/src/types/Background';
+import { type Settings } from '@/src/services/settings/settings';
+import { invalidateExpiredCache } from '@/src/services/storage/cache';
+import { type BackgroundMessage, type SettingsChangedMessage } from '@/src/types/Background';
 
 export default defineBackground(() => {
-  console.log('Extension ID:', { id: browser.runtime.id });
-
   browser.runtime.onMessage.addListener((message: BackgroundMessage, sender, sendResponse) => {
     switch (message.type) {
       case 'GET_PRODUCT_DATA': {
@@ -15,7 +14,7 @@ export default defineBackground(() => {
             sendResponse(response);
           })
           .catch((error) => {
-            console.log('Error fetching product data:', error);
+            console.error('Error fetching product data:', error);
             sendResponse({
               status: 'ERROR',
               message: 'Failed to fetch product data',
@@ -26,10 +25,13 @@ export default defineBackground(() => {
       }
 
       case 'INVALIDATE_CACHE': {
-        const cache = CacheService.getInstance();
-        void cache.invalidate();
+        void invalidateExpiredCache();
         return false;
       }
+
+      // Broadcast-only: the background sends this, it never receives it.
+      case 'SETTINGS_CHANGED':
+        return false;
 
       default:
         sendResponse({ status: 'ERROR', message: 'Unknown message type', product: null });
@@ -47,8 +49,8 @@ export default defineBackground(() => {
               browser.tabs
                 .sendMessage(tab.id, {
                   type: 'SETTINGS_CHANGED',
-                  settings: changes['settings'].newValue,
-                })
+                  payload: changes['settings'].newValue as Settings,
+                } satisfies SettingsChangedMessage)
                 .catch(() => {});
             }
           });

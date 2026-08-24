@@ -2,8 +2,8 @@ import { useEffect, useState } from 'preact/hooks';
 
 import Toggle from '../ui/Toggle';
 
-import { defaultSettings, Settings } from '@/src/services/settings/SettingsService';
-import StorageService from '@/src/services/storage/StorageService';
+import { getDefaultSettings, type Settings } from '@/src/services/settings/settings';
+import { getStoredValue, setStoredValue } from '@/src/services/storage/storage';
 
 const TABS = [
   { id: 'display', label: 'Display' },
@@ -14,8 +14,6 @@ const TABS = [
 type TabId = (typeof TABS)[number]['id'];
 
 const ACTIVE_TAB_KEY = 'settings-active-tab';
-
-const storageService = StorageService.getInstance();
 
 const Settings = ({
   settings,
@@ -28,14 +26,14 @@ const Settings = ({
   const [resetDone, setResetDone] = useState(false);
 
   useEffect(() => {
-    void storageService.get<TabId>(ACTIVE_TAB_KEY).then((stored) => {
+    void getStoredValue<TabId>(ACTIVE_TAB_KEY).then((stored) => {
       if (stored && TABS.some((t) => t.id === stored)) setTab(stored);
     });
   }, []);
 
   const handleTabChange = (t: TabId) => {
     setTab(t);
-    void storageService.set(ACTIVE_TAB_KEY, t);
+    void setStoredValue(ACTIVE_TAB_KEY, t);
   };
 
   const updateSetting = <K extends keyof Settings>(key: K, value: Settings[K]) => {
@@ -57,7 +55,7 @@ const Settings = ({
   };
 
   const resetSettings = () => {
-    onChange(defaultSettings);
+    onChange(getDefaultSettings());
     setResetDone(true);
     setTimeout(() => setResetDone(false), 3000);
   };
