@@ -65,6 +65,20 @@ PR titles follow [Conventional Commits](https://www.conventionalcommits.org/) (C
 The [PR template](.github/pull_request_template.md) requires a description, media for
 visual changes, linked issues (`Fixes: #123`), the self-review checklist, and CI green.
 
+## Releases
+
+1. Bump `version` in `package.json`
+2. Commit as `chore(release): vX.Y.Z` and merge to `main`
+3. Tag and push:
+
+   ```bash
+   git tag vX.Y.Z && git push origin vX.Y.Z
+   ```
+
+CI then verifies the full gate at the tagged commit (version/tag match, compile, lint,
+format, tests), builds Chrome/Firefox/source zips and publishes a GitHub Release with
+auto-generated notes from the commit history. [`docs/RELEASE.md`](docs/RELEASE.md)
+
 ## AI usage disclosure & responsibility
 
 - Disclose any LLM/AI assistance in the PR template (tool name + how it was used).
