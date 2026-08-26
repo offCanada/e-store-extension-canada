@@ -1,6 +1,6 @@
 {
   "name": "e-store-extension-canada",
-  "description": "NutriLens — Open Food Facts scores (Nutri-Score, Eco-Score, NOVA) overlaid on Canadian online grocery stores",
+  "description": "NutriLens - Open Food Facts scores (Nutri-Score, Eco-Score, NOVA) overlaid on Canadian online grocery stores",
   "private": true,
   "license": "MIT",
   "author": "Open Food Facts Canada contributors",

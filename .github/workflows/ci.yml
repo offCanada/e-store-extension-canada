@@ -2,6 +2,10 @@ name: 'CI'
 
 on:
   pull_request:
+    paths-ignore: ['docs/**', '**/*.md', '**/*.svg']
+  push:
+    branches: [main]
+    paths-ignore: ['docs/**', '**/*.md', '**/*.svg']
 
 permissions:
   contents: read
@@ -25,10 +29,24 @@ jobs:
       - run: pnpm compile
       - run: pnpm lint
       - run: pnpm format:check
+  
+  test:
+    name: Unit Tests
+    runs-on: ubuntu-slim
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test
 
   build:
     name: Build extension
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
+    if: github.event_name == 'pull_request' # full builds only gate merges, not post-merge smoke
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
