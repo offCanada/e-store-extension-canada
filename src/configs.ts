@@ -16,7 +16,7 @@ export const OFFCanadaApiConfig = {
   addProductUrl: 'https://world.openfoodfacts.org/contribute/',
   product: {
     lookup: {
-      url: 'http://localhost:8000/api/v1/products/search',
+      url: 'https://e-store-extension-canada-api.vercel.app/api/v1/products/search',
     },
   },
 };

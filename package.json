@@ -23,6 +23,7 @@
     "postinstall": "wxt prepare",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
+    "build:site": "npx @tailwindcss/cli -i docs/site/src/input.css -o docs/site/assets/styles.css --minify",
     "format": "prettier . --write",
     "format:check": "prettier . --check"
   },
