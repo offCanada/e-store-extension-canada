@@ -8,8 +8,8 @@
       name="description"
       content="NutriLens is a free, open-source browser extension that shows Nutri-Score, Eco-Score and NOVA badges while you shop online at Canadian grocery stores."
     />
-    <link rel="icon" href="site/assets/off-icon.svg" />
-    <link rel="stylesheet" href="site/assets/styles.css" />
+    <link rel="icon" href="assets/off-icon.svg" />
+    <link rel="stylesheet" href="assets/css/styles.css" />
   </head>
 
   <body class="bg-night text-slate-200 font-sans antialiased overflow-x-hidden">
@@ -17,7 +17,7 @@
     <header class="fixed top-0 inset-x-0 z-50 backdrop-blur-md bg-night/70 border-b border-white/5">
       <nav class="max-w-6xl mx-auto flex items-center justify-between px-5 py-3">
         <a href="#top" class="flex items-center gap-2.5 group">
-          <img src="site/assets/off-icon.svg" alt="" class="h-8 w-8 rounded-lg" />
+          <img src="assets/off-icon.svg" alt="" class="h-8 w-8 rounded-lg" />
           <span
             class="font-extrabold text-lg tracking-tight text-white group-hover:text-mint transition-colors"
             >NutriLens</span
@@ -115,7 +115,7 @@
           <figure class="relative animate-floatslow">
             <img
               id="hero-shot"
-              src="site/assets/screenshots/nutrilens-modal.png"
+              src="assets/screenshots/nutrilens-modal.png"
               alt="NutriLens badges overlaid on a grocery store product page"
               class="w-full rounded-3xl border border-edge shadow-2xl"
               onerror="
@@ -124,8 +124,7 @@
                   Object.assign(document.createElement('div'), {
                     className:
                       'grid h-64 place-items-center rounded-3xl border border-dashed border-edge bg-panel text-center text-sm text-slate-500',
-                    innerHTML:
-                      '📸 Drop a screenshot at<br><code>docs/site/site/assets/screenshot.png</code>',
+                    innerHTML: '📸 Drop a screenshot at<br><code>docs/assets/screenshot.png</code>',
                   })
                 );
               "
@@ -152,7 +151,7 @@
             playsinline
             class="relative w-full rounded-3xl border border-edge shadow-2xl bg-night"
           >
-            <source src="site/assets/screenshots/nutrilens-demo.mp4" type="video/mp4" />
+            <source src="assets/screenshots/nutrilens-demo.mp4" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
         </figure>
@@ -341,11 +340,11 @@
         <div class="mt-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           <div class="rounded-2xl border border-edge bg-night p-6 text-center">
             <div class="flex justify-center gap-1 flex-wrap">
-              <img src="site/assets/score/nutri-score/a.svg" alt="Nutri-Score A" class="h-9" />
-              <img src="site/assets/score/nutri-score/b.svg" alt="Nutri-Score B" class="h-9" />
-              <img src="site/assets/score/nutri-score/c.svg" alt="Nutri-Score C" class="h-9" />
-              <img src="site/assets/score/nutri-score/d.svg" alt="Nutri-Score D" class="h-9" />
-              <img src="site/assets/score/nutri-score/e.svg" alt="Nutri-Score E" class="h-9" />
+              <img src="assets/score/nutri-score/a.svg" alt="Nutri-Score A" class="h-9" />
+              <img src="assets/score/nutri-score/b.svg" alt="Nutri-Score B" class="h-9" />
+              <img src="assets/score/nutri-score/c.svg" alt="Nutri-Score C" class="h-9" />
+              <img src="assets/score/nutri-score/d.svg" alt="Nutri-Score D" class="h-9" />
+              <img src="assets/score/nutri-score/e.svg" alt="Nutri-Score E" class="h-9" />
             </div>
             <h3 class="mt-4 font-bold text-white">Nutri-Score</h3>
             <p class="mt-2 text-sm text-slate-400">
@@ -354,13 +353,13 @@
           </div>
           <div class="rounded-2xl border border-edge bg-night p-6 text-center">
             <div class="flex justify-center gap-1 flex-wrap">
-              <img src="site/assets/score/green-score/a-plus.svg" alt="Eco-Score A+" class="h-9" />
-              <img src="site/assets/score/green-score/a.svg" alt="Eco-Score A" class="h-9" />
-              <img src="site/assets/score/green-score/b.svg" alt="Eco-Score B" class="h-9" />
-              <img src="site/assets/score/green-score/c.svg" alt="Eco-Score C" class="h-9" />
-              <img src="site/assets/score/green-score/d.svg" alt="Eco-Score D" class="h-9" />
-              <img src="site/assets/score/green-score/e.svg" alt="Eco-Score E" class="h-9" />
-              <img src="site/assets/score/green-score/f.svg" alt="Eco-Score F" class="h-9" />
+              <img src="assets/score/green-score/a-plus.svg" alt="Eco-Score A+" class="h-9" />
+              <img src="assets/score/green-score/a.svg" alt="Eco-Score A" class="h-9" />
+              <img src="assets/score/green-score/b.svg" alt="Eco-Score B" class="h-9" />
+              <img src="assets/score/green-score/c.svg" alt="Eco-Score C" class="h-9" />
+              <img src="assets/score/green-score/d.svg" alt="Eco-Score D" class="h-9" />
+              <img src="assets/score/green-score/e.svg" alt="Eco-Score E" class="h-9" />
+              <img src="assets/score/green-score/f.svg" alt="Eco-Score F" class="h-9" />
             </div>
             <h3 class="mt-4 font-bold text-white">Green-Score / Eco-Score</h3>
             <p class="mt-2 text-sm text-slate-400">
@@ -369,10 +368,10 @@
           </div>
           <div class="rounded-2xl border border-edge bg-night p-6 text-center">
             <div class="flex justify-center gap-1 flex-wrap">
-              <img src="site/assets/score/nova-group/1.svg" alt="NOVA 1" class="h-9" />
-              <img src="site/assets/score/nova-group/2.svg" alt="NOVA 2" class="h-9" />
-              <img src="site/assets/score/nova-group/3.svg" alt="NOVA 3" class="h-9" />
-              <img src="site/assets/score/nova-group/4.svg" alt="NOVA 4" class="h-9" />
+              <img src="assets/score/nova-group/1.svg" alt="NOVA 1" class="h-9" />
+              <img src="assets/score/nova-group/2.svg" alt="NOVA 2" class="h-9" />
+              <img src="assets/score/nova-group/3.svg" alt="NOVA 3" class="h-9" />
+              <img src="assets/score/nova-group/4.svg" alt="NOVA 4" class="h-9" />
             </div>
             <h3 class="mt-4 font-bold text-white">NOVA group</h3>
             <p class="mt-2 text-sm text-slate-400">
@@ -382,21 +381,17 @@
           <div class="rounded-2xl border border-edge bg-night p-6 text-center">
             <div class="flex justify-center gap-1 flex-wrap">
               <img
-                src="site/assets/score/nutrient-levels/fat/unknown.svg"
+                src="assets/score/nutrient-levels/fat/unknown.svg"
                 alt="Fat unknown"
                 class="h-9"
               />
-              <img src="site/assets/score/nutrient-levels/fat/low.svg" alt="Fat low" class="h-9" />
+              <img src="assets/score/nutrient-levels/fat/low.svg" alt="Fat low" class="h-9" />
               <img
-                src="site/assets/score/nutrient-levels/fat/moderate.svg"
+                src="assets/score/nutrient-levels/fat/moderate.svg"
                 alt="Fat moderate"
                 class="h-9"
               />
-              <img
-                src="site/assets/score/nutrient-levels/fat/high.svg"
-                alt="Fat high"
-                class="h-9"
-              />
+              <img src="assets/score/nutrient-levels/fat/high.svg" alt="Fat high" class="h-9" />
             </div>
             <h3 class="mt-4 font-bold text-white">Nutrient levels</h3>
             <p class="mt-2 text-sm text-slate-400">
@@ -578,7 +573,7 @@
       <div class="max-w-6xl mx-auto flex flex-col items-center justify-center gap-6">
         <a href="https://world.openfoodfacts.org" target="_blank" rel="noopener">
           <img
-            src="site/assets/off-logo.svg"
+            src="assets/off-logo.svg"
             alt="Open Food Facts"
             class="h-8 opacity-80 hover:opacity-100 transition-opacity"
           />
