@@ -9,11 +9,12 @@ export default defineConfig({
   }),
   manifest: {
     name: 'NutriLens – Your Health Lens',
-    description: 'See Nutri-Score, Eco-Score and NOVA badges while shopping online at Canadian grocery stores.',
-    icons: {'16': 'icon/ext-icon.png', '48': 'icon/ext-icon.png', '128': 'icon/ext-icon.png'},
+    description:
+      'See Nutri-Score, Eco-Score and NOVA badges while shopping online at Canadian grocery stores.',
+    icons: { '16': 'icon/ext-icon.png', '48': 'icon/ext-icon.png', '128': 'icon/ext-icon.png' },
     // Version is sourced from package.json (single source of truth)
     host_permissions: ['https://world.openfoodfacts.org/*', 'https://search.openfoodfacts.org/*'],
-    
+
     permissions: ['storage', 'unlimitedStorage'],
     web_accessible_resources: [
       {
