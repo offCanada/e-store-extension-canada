@@ -29,7 +29,8 @@ Fixes: `pnpm lint:fix`, `pnpm format`.
 
 - `entrypoints/` — background worker, content-script bootstrap, popup app (WXT)
 - `src/runtime/` — adapter registry + store adapters, Orchestrator render loop, DOM/visibility observers, shadow-DOM rendering, element dedup tracker
-- `src/components/` — Preact UI (banners, modal, popup) · `src/services/` — product APIs + caching + settings
+- `src/components/` — Preact UI (banners, modal, popup)
+- `src/services/` — product APIs + caching + settings
 - `src/types/`, `src/utils/`, `src/configs.ts` — shared types, helpers, endpoints/TTLs/store keys
 
 Key concepts: adapters isolate store DOM from logic; the Orchestrator re-renders on every
@@ -45,8 +46,8 @@ through the background worker**; injected UI lives in shadow roots.
 
 ## Related repositories
 
-- [`e-store-extension-core`](https://github.com/offCanada/e-store-extension-core) — shared template; port generic fixes upstream.
-- [`e-store-extension-canada-api`](https://github.com/offCanada/e-store-extension-canada-api) — Canada Reference DB on `localhost:8000`; required locally for Voilà work.
+- [`e-store-extension-core`](https://github.com/offCanada/e-store-extension-core) — used as base template for e-store extensions.
+- [`e-store-extension-canada-api`](https://github.com/offCanada/e-store-extension-canada-api) — Canada Reference DB api; currently focused on Voila Compliment Food products.
 
 ## Testing
 
@@ -83,7 +84,7 @@ auto-generated notes from the commit history. [`docs/RELEASE.md`](docs/RELEASE.m
 
 - Disclose any LLM/AI assistance in the PR template (tool name + how it was used).
 - You own every line you submit — review AI output as critically as a stranger's patch.
-- Never paste secrets or personal data into prompts or commits.
+- Never include secrets or personal data in commits.
 
 ## Ideas looking for contributors
 
@@ -93,7 +94,7 @@ auto-generated notes from the commit history. [`docs/RELEASE.md`](docs/RELEASE.m
 - more stores
 - scraping pipeline for reference-DB
 - ci/cd improvements
-- anything that brings value
+- or anything that brings value
 
 ## Help
 
