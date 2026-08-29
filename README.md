@@ -9,9 +9,7 @@
 data — **Nutri-Score**, **Eco-Score**, **NOVA group** and nutrient-level badges — onto
 Canadian online grocery stores while you shop.
 
-A country-specific fork of
-[`e-store-extension-core`](https://github.com/offCanada/e-store-extension-core), part of
-the [Open Food Facts](https://world.openfoodfacts.org) ecosystem.
+<img src="docs/assets/screenshots/nutrilens-modal.png" width="auto" height="250" alt="Screenshot of NutriLens extension in action"/>
 
 ## Supported stores
 
@@ -19,10 +17,6 @@ the [Open Food Facts](https://world.openfoodfacts.org) ecosystem.
 | ----- | ---------- | ------------------------------------------------------------------------------------ |
 | Metro | `metro.ca` | Global [Open Food Facts](https://world.openfoodfacts.org) API                        |
 | Voilà | `voila.ca` | [Canada Reference DB API](https://github.com/offCanada/e-store-extension-canada-api) |
-
-> **Voilà note:** requires the companion
-> [`e-store-extension-canada-api`](https://github.com/offCanada/e-store-extension-canada-api)
-> (currenlty local environment only)
 
 ## How it works
 
@@ -32,6 +26,10 @@ the [Open Food Facts](https://world.openfoodfacts.org) ecosystem.
 3. Badges render in an isolated shadow DOM; click a banner for full product details.
 
 Full feature list: [`docs/FEATURES.md`](docs/FEATURES.md).
+
+<video src="docs/assets/screenshots/nutrilens-metro-demo.mp4" width="auto" height="400" autoplay loop muted playsinline></video>
+
+<video src="docs/assets/screenshots/nutrilens-voila-demo.mp4" width="auto" height="400" autoplay loop muted playsinline></video>
 
 ## Installation
 

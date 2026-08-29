@@ -2,6 +2,7 @@ name: 'CI'
 
 on:
   pull_request:
+    branches: [main]
     paths-ignore: ['docs/**', '**/*.md', '**/*.svg']
   push:
     branches: [main]

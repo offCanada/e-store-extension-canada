@@ -2,4 +2,4 @@ blank_issues_enabled: true
 contact_links:
   - name: 💬 Community Slack
     url: https://slack.openfoodfacts.org
-    about: Join the #askoff-extensions channel to ask questions or discuss ideas before opening an issue.
+    about: "Join the #askoff-extensions channel to ask questions or discuss ideas before opening an issue."
